@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Gender">
+        <menu>
+            <item
+                android:id="@+id/home"
+                android:title="Home" />
+            <item
+                android:id="@+id/View"
+                android:title="View" />
+        </menu>
+
+    </item>
+    <item android:title="Advance">
+        <menu>
+            <item
+                android:id="@+id/Add"
+                android:title="Add" />
+        </menu>
+
+    </item>
+
+</menu>
