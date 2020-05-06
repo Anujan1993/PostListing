@@ -7,17 +7,6 @@
             <item
                 android:id="@+id/home"
                 android:title="Home" />
-            <item
-                android:id="@+id/View"
-                android:title="View" />
-        </menu>
-
-    </item>
-    <item android:title="Advance">
-        <menu>
-            <item
-                android:id="@+id/Add"
-                android:title="Add" />
         </menu>
 
     </item>

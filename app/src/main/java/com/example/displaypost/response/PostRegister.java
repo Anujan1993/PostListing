@@ -1,15 +1,12 @@
-package com.example.displaypost;
+package com.example.displaypost.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class listPosts {
+public class PostRegister {
     @SerializedName("userId")
     @Expose
     private Integer userId;
-    @SerializedName("id")
-    @Expose
-    private Integer id;
     @SerializedName("title")
     @Expose
     private String title;
@@ -25,13 +22,6 @@ public class listPosts {
         this.userId = userId;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -49,3 +39,4 @@ public class listPosts {
         this.body = body;
     }
 }
+
