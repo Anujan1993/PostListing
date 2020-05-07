@@ -13,20 +13,17 @@ import com.example.displaypost.R;
 import com.example.displaypost.api.NetworkClient;
 import com.example.displaypost.api.RequestInterface;
 import com.example.displaypost.response.PostRegister;
-import com.example.displaypost.response.listPosts;
+import com.example.displaypost.response.ListPosts;
 
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AddPostActivity extends AppCompatActivity {
-    private EditText Title,body;
-    private Button back, submit;
+    private EditText Title;
+    private EditText body;
+    private Button back;
+    private Button submit;
     private int userID=1;
     private RequestInterface requestInterface;
 
@@ -38,11 +35,9 @@ public class AddPostActivity extends AppCompatActivity {
         body = (EditText)findViewById(R.id.BodyTest);
         back =(Button)findViewById(R.id.BacktoHome);
         submit=(Button)findViewById(R.id.Submit);
-
+        getSupportActionBar().setTitle("Add Post");
 
         requestInterface = NetworkClient.retrofit.create(RequestInterface.class);
-
-
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +53,6 @@ public class AddPostActivity extends AppCompatActivity {
         });
     }
 
-
     public PostRegister savelistposts(){
         PostRegister listposts = new PostRegister();
         listposts.setTitle(Title.getText().toString());
@@ -70,15 +64,15 @@ public class AddPostActivity extends AppCompatActivity {
 
     public void savePost(PostRegister listposts){
 
-        Call<listPosts> call = requestInterface.savePost(listposts);
-        call.enqueue(new Callback<listPosts>() {
+        Call<ListPosts> call = requestInterface.savePost(listposts);
+        call.enqueue(new Callback<ListPosts>() {
             @Override
-            public void onResponse(Call<listPosts> call, Response<listPosts> response) {
-                Toast.makeText(AddPostActivity.this, "Request Success", Toast.LENGTH_LONG).show();
+            public void onResponse(Call<ListPosts> call, Response<ListPosts> response) {
+                Toast.makeText(AddPostActivity.this, "Post Successfully Added", Toast.LENGTH_LONG).show();
             }
 
             @Override
-            public void onFailure(Call<listPosts> call, Throwable t) {
+            public void onFailure(Call<ListPosts> call, Throwable t) {
                 Toast.makeText(AddPostActivity.this, "Request not", Toast.LENGTH_LONG).show();
             }
         });

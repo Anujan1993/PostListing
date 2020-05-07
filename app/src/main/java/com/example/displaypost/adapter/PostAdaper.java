@@ -12,16 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.displaypost.R;
 import com.example.displaypost.UI.ViewPostActivity;
-import com.example.displaypost.response.listPosts;
+import com.example.displaypost.response.ListPosts;
 
 import java.util.ArrayList;
 
 public class PostAdaper extends RecyclerView.Adapter<PostAdaper.postViewAdapter> {
 
-    ArrayList<listPosts> data1;
-    Context context;
+    private ArrayList<ListPosts> data1;
+    private Context context;
 
-    public PostAdaper(Context ct, ArrayList<listPosts> s1){
+    public PostAdaper(Context ct, ArrayList<ListPosts> s1){
         context = ct;
         data1 = s1;
     }

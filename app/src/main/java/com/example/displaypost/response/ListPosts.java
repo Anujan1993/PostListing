@@ -3,7 +3,7 @@ package com.example.displaypost.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class listPosts {
+public class ListPosts {
     @SerializedName("userId")
     @Expose
     private Integer userId;

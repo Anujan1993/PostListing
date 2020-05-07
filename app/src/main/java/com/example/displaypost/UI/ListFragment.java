@@ -17,9 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.displaypost.adapter.PostAdaper;
 import com.example.displaypost.R;
+import com.example.displaypost.api.NetworkClient;
 import com.example.displaypost.api.RequestInterface;
 import com.example.displaypost.entitys.Posts;
-import com.example.displaypost.response.listPosts;
+import com.example.displaypost.response.ListPosts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,17 +28,17 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ListFragment extends Fragment {
 
-    RecyclerView recyclerView;
-    ArrayList<listPosts> Data ;
-    int postID,userID;
-    String Title,Body;
+    private RecyclerView recyclerView;
+    private ArrayList<ListPosts> Data ;
+    private int postID;
+    private int userID;
+    private String Title;
+    private String Body;
     private Posts posts;
-    private  ArrayList<Posts> postsArrayList;
+    private RequestInterface requestInterface;
 
     @Nullable
     @Override
@@ -45,51 +46,40 @@ public class ListFragment extends Fragment {
         View view = inflater.inflate(R.layout.list_post,container,false);
 
         Data = new ArrayList<>();
-
         recyclerView = (RecyclerView)view.findViewById(R.id.ListOfPost);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        requestInterface = NetworkClient.retrofit.create(RequestInterface.class);
 
         ConnectivityManager cm =
                 (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
-
         if (isConnected == true){
             lodeRecyclerView();
         }
         else {
             NoInternetFunction();
         }
-
-
-
         return view;
-
     }
 
     private void lodeRecyclerView() {
-
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://jsonplaceholder.typicode.com/")
-                .addConverterFactory(GsonConverterFactory.create()).build();
-        RequestInterface requestInterface = retrofit.create(RequestInterface.class);
-
-        Call <List<listPosts>> call = requestInterface.getPostJson();
-        call.enqueue(new Callback<List<listPosts>>() {
+        Call <List<ListPosts>> call = requestInterface.getPostJson();
+        call.enqueue(new Callback<List<ListPosts>>() {
             @Override
-            public void onResponse(Call<List<listPosts>> call, Response<List<listPosts>> response) {
+            public void onResponse(Call<List<ListPosts>> call, Response<List<ListPosts>> response) {
                 //Toast.makeText(getActivity(), "Request Success", Toast.LENGTH_LONG).show();
                 Posts post= new Posts();
                 post.deleteAll(Posts.class);
-                for(int ii = 0; ii<response.body().size(); ii++) {
-                    postID = response.body().get(ii).getId().intValue();
-                    userID = response.body().get(ii).getUserId().intValue();
-                    Title = String.valueOf(response.body().get(ii).getTitle());
-                    Body = String.valueOf(response.body().get(ii).getBody());
+                for(int i = 0; i<response.body().size(); i++) {
+                    postID = response.body().get(i).getId().intValue();
+                    userID = response.body().get(i).getUserId().intValue();
+                    Title = String.valueOf(response.body().get(i).getTitle());
+                    Body = String.valueOf(response.body().get(i).getBody());
 
-                    Posts posts= new Posts();
+                    posts = new Posts();
                     posts.setPostID(postID);
                     posts.setTitle(Title);
                     posts.setBody(Body);
@@ -99,10 +89,9 @@ public class ListFragment extends Fragment {
                 Data.addAll(response.body());
                 PostAdaper postAdaper = new PostAdaper(getActivity(),Data);
                 recyclerView.setAdapter(postAdaper);
-
             }
             @Override
-            public void onFailure(Call<List<listPosts>> call, Throwable t) {
+            public void onFailure(Call<List<ListPosts>> call, Throwable t) {
                 Toast.makeText(getActivity(), "Request Not", Toast.LENGTH_LONG).show();
             }
         });
@@ -110,16 +99,13 @@ public class ListFragment extends Fragment {
 
     private void NoInternetFunction(){
         List<Posts> postsList = Posts.listAll(Posts.class);
-        ArrayList<listPosts> postArrayList = new ArrayList<>();
-
-        for(int ii = 0; ii<postsList.size(); ii++) {
-
-            listPosts lp = new listPosts();
-            lp.setUserId(postsList.get(ii).getUserID());
-            lp.setTitle(postsList.get(ii).getTitle());
-            lp.setId(postsList.get(ii).getPostID());
-            lp.setBody(postsList.get(ii).getBody());
-
+        ArrayList<ListPosts> postArrayList = new ArrayList<>();
+        for(int i = 0; i<postsList.size(); i++) {
+            ListPosts lp = new ListPosts();
+            lp.setUserId(postsList.get(i).getUserID());
+            lp.setTitle(postsList.get(i).getTitle());
+            lp.setId(postsList.get(i).getPostID());
+            lp.setBody(postsList.get(i).getBody());
             postArrayList.add(lp);
         }
         PostAdaper postAdaper = new PostAdaper(getActivity(),postArrayList);

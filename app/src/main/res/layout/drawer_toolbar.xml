@@ -12,7 +12,7 @@
         android:background="@color/colorPrimaryDark"
         android:id="@+id/toolbar"
         tools:ignore="MissingConstraints"
-        app:title="Post Add"
+        app:title="List of All Posts"
         android:backgroundTint="@color/colorPurple_A400"
         app:titleTextColor="@color/colorWhite">
 

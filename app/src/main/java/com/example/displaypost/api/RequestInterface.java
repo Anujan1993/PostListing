@@ -3,7 +3,7 @@ package com.example.displaypost.api;
 import com.example.displaypost.response.PostRegister;
 import com.example.displaypost.response.ComentDetails;
 import com.example.displaypost.response.UserData;
-import com.example.displaypost.response.listPosts;
+import com.example.displaypost.response.ListPosts;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import retrofit2.http.POST;
 
 public interface RequestInterface {
     @GET("posts")
-    Call <List<listPosts>> getPostJson();
+    Call <List<ListPosts>> getPostJson();
 
     @GET("comments")
     Call<List<ComentDetails>> getComentJson();
@@ -23,5 +23,5 @@ public interface RequestInterface {
     Call<List<UserData>> getUserJson();
 
     @POST("posts")
-    Call<listPosts> savePost(@Body PostRegister postRegister);
+    Call<ListPosts> savePost(@Body PostRegister postRegister);
 }
